@@ -2,8 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/xf.svg)](http://badge.fury.io/rb/xf)
 <!-- Replace <id> with Code Climate repository ID. Remove this comment afterwards. -->
-[![Code Climate Maintainability](https://api.codeclimate.com/v1/badges/<id>/maintainability)](https://codeclimate.com/github//xf/maintainability)
-[![Code Climate Test Coverage](https://api.codeclimate.com/v1/badges/<id>/test_coverage)](https://codeclimate.com/github//xf/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/905faea654f9e0a1f811/maintainability)](https://codeclimate.com/github/baweaver/xf/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/905faea654f9e0a1f811/test_coverage)](https://codeclimate.com/github/baweaver/xf/test_coverage)
 
 <!-- Tocer[start]: Auto-generated, don't remove. -->
 
