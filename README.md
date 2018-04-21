@@ -89,7 +89,7 @@ That means array indexes work too, and on both `get` and `set` methods!
 
 ## Requirements
 
-0. [Ruby 2.3.7](https://www.ruby-lang.org)
+0. [Ruby 2.5.1](https://www.ruby-lang.org)
 
 ## Setup
 
