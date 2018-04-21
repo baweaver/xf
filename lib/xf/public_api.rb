@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'xf/scope'
+
 module Xf
   module PublicApi
     # Composes a list of functions, or items that respond to `to_proc`, into
@@ -17,5 +19,9 @@ module Xf
     end
 
     alias_method :c, :compose
+
+    def scope(*path)
+      Scope.new(path)
+    end
   end
 end
