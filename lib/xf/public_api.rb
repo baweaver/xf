@@ -20,8 +20,21 @@ module Xf
 
     alias_method :c, :compose
 
+    # Creates a Scope.
+    #
+    # @see Xf::Scope
+    #
+    # @note
+    #   See the README for more instructions on usage. Will likely propogate
+    #   more examples here and into the specs later.
+    #
+    # @param *path [Array[Any]] Hash#dig accessible segments
+    #
+    # @return [Xf::Scope]
     def scope(*path)
       Scope.new(path)
     end
+
+    alias_method :s, :scope
   end
 end

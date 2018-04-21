@@ -26,13 +26,63 @@
 
 ## Features
 
-For the moment, compose:
+**Compose**
 
 ```ruby
 %w(1 2 3 4).map(&Xf.compose(:to_i, :succ))
 ```
 
 If it looks like a Proc, or can be convinced to become one, it will work there.
+
+**Scopes**
+
+A Scope is a play on a [concept from Haskell called a Lense](http://hackage.haskell.org/package/lens-tutorial-1.0.3/docs/Control-Lens-Tutorial.html).
+
+The idea is to be able to define a path to a transformation and either get or
+set against it as a first class function. Well, easier shown than explained.
+
+To start with we can do a few gets:
+
+```ruby
+people = [{name: "Robert", age: 22}, {name: "Roberta", age: 22}, {name: "Foo", age: 42}, {name: "Bar", age: 18}]
+
+people.map(&Xf.scope(:age).get)
+# => [22, 22, 42, 18]
+```
+
+Let's try setting a value:
+
+```ruby
+people = [{name: "Robert", age: 22}, {name: "Roberta", age: 22}, {name: "Foo", age: 42}, {name: "Bar", age: 18}]
+
+older_people = people.map(&Xf.scope(:age) { |age| age + 1 })
+
+older_people = people.map(&Xf.scope(:age).set { |age| age + 1 })
+# => [{:name=>"Robert", :age=>23}, {:name=>"Roberta", :age=>23}, {:name=>"Foo", :age=>43}, {:name=>"Bar", :age=>19}]
+
+people
+# => [{:name=>"Robert", :age=>22}, {:name=>"Roberta", :age=>22}, {:name=>"Foo", :age=>42}, {:name=>"Bar", :age=>18}]
+
+# set! will mutate, for those tough ground in issues:
+
+older_people = people.map(&Xf.scope(:age).set! { |age| age + 1 })
+# => [{:name=>"Robert", :age=>23}, {:name=>"Roberta", :age=>23}, {:name=>"Foo", :age=>43}, {:name=>"Bar", :age=>19}]
+
+people
+# => [{:name=>"Robert", :age=>23}, {:name=>"Roberta", :age=>23}, {:name=>"Foo", :age=>43}, {:name=>"Bar", :age=>19}]
+```
+
+It works much the same as `Hash#dig` in that you can pass multiple comma-seperated values as a deeper path:
+
+```
+Xf.scope(:children, 0, :name).get.call({name: 'Foo', children: [{name: 'Bar'}]})
+# => "Bar"
+
+Xf.scope(:children, 0, :name).set('Baz').call({name: 'Foo', children: [{name: 'Bar'}]})
+# => {:name=>"Foo", :children=>[{:name=>"Baz"}]}
+```
+
+That means array indexes work too, and on both `get` and `set` methods!
 
 ## Screencasts
 
