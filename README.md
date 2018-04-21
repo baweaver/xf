@@ -26,6 +26,14 @@
 
 ## Features
 
+For the moment, compose:
+
+```ruby
+%w(1 2 3 4).map(&Xf.compose(:to_i, :succ))
+```
+
+If it looks like a Proc, or can be convinced to become one, it will work there.
+
 ## Screencasts
 
 ## Requirements
@@ -69,7 +77,7 @@ Read [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
 
-Copyright 2018 []().
+Copyright 2018 [Brandon Weaver]().
 Read [LICENSE](LICENSE.md) for details.
 
 ## History
@@ -79,5 +87,4 @@ Built with [Gemsmith](https://github.com/bkuhlmann/gemsmith).
 
 ## Credits
 
-Developed by [Brandon Weaver]() at
-[]().
+Developed by [Brandon Weaver]()

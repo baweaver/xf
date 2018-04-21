@@ -4,19 +4,21 @@ $LOAD_PATH.append File.expand_path("lib", __dir__)
 require "xf/identity"
 
 Gem::Specification.new do |spec|
+  repository_url = "https://www.github.com/baweaver/xf"
+
   spec.name = Xf::Identity.name
   spec.version = Xf::Identity.version
   spec.platform = Gem::Platform::RUBY
   spec.authors = ["Brandon Weaver"]
   spec.email = ["keystonelemur@gmail.com"]
-  spec.homepage = ""
-  spec.summary = ""
+  spec.homepage = repository_url
+  spec.summary = "Xf - Transform functions for Enumerable collections"
   spec.license = "MIT"
 
   spec.metadata = {
-    "source_code_uri" => "",
-    "changelog_uri" => "/blob/master/CHANGES.md",
-    "bug_tracker_uri" => "/issues"
+    "source_code_uri" => "#{repository_url}/xf",
+    "changelog_uri" => "#{repository_url}/blob/master/CHANGES.md",
+    "bug_tracker_uri" => "#{repository_url}/issues"
   }
 
 
