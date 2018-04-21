@@ -4,6 +4,7 @@
 <!-- Replace <id> with Code Climate repository ID. Remove this comment afterwards. -->
 [![Maintainability](https://api.codeclimate.com/v1/badges/905faea654f9e0a1f811/maintainability)](https://codeclimate.com/github/baweaver/xf/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/905faea654f9e0a1f811/test_coverage)](https://codeclimate.com/github/baweaver/xf/test_coverage)
+[![Build Status](https://travis-ci.org/baweaver/xf.svg?branch=master)](https://travis-ci.org/baweaver/xf)
 
 <!-- Tocer[start]: Auto-generated, don't remove. -->
 

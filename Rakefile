@@ -19,4 +19,4 @@ end
 desc "Run code quality checks"
 task code_quality: %i[bundle:audit git_cop reek rubocop]
 
-task default: %i[code_quality spec]
+task default: %i[spec]
