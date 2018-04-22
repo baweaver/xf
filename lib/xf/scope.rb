@@ -48,31 +48,55 @@ module Xf
       Proc.new { |hash| set_value!(hash, value, &fn) }
     end
 
-    # Private API - Methods below here are subject to change, please don't use
-    # them directly.
-
-    private def get_value(hash)
+    # Direct value getter, though it may be wiser to use Hash#dig here
+    # instead if you're concerned about speed.
+    #
+    # @param hash [Hash] Hash to get value from
+    #
+    # @return [Any]
+    def get_value(hash)
       hash.dig(*@paths)
     end
 
-    private def set_value(hash, value = nil, &fn)
+    # Sets a value at the bottom of a path without mutating the original.
+    #
+    # @param hash [Hash]
+    #   Hash to set value on
+    #
+    # @param value = nil [Any]
+    #   Value to set
+    #
+    # @param &fn [Proc]
+    #   If present, current value is yielded to it and the return
+    #   value is the new set value
+    #
+    # @return [Hash]
+    #   Clone of the original with the value set
+    def set_value(hash, value = nil, &fn)
       set_value!(deep_clone(hash), value, &fn)
     end
 
-    private def set_value!(hash, value = nil, &fn)
+    # Mutating form of `#set_value`
+    #
+    # @see set_value
+    def set_value!(hash, value = nil, &fn)
       lead_in    = @paths[0..-2]
       target_key = @paths[-1]
 
-      dive = lead_in.reduce(hash) { |h, s| h[s] }
+      new_hash = hash
+      lead_in.each { |s| new_hash = new_hash[s] }
 
       new_value = block_given? ?
-        yield(dive[target_key]) :
+        yield(new_hash[target_key]) :
         value
 
-      dive[target_key] = new_value
+      new_hash[target_key] = new_value
 
       hash
     end
+
+    # Private API - Methods below here are subject to change, please don't use
+    # them directly.
 
     private def deep_clone(hash)
       Marshal.load(Marshal.dump(hash))

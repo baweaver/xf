@@ -3,7 +3,7 @@
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require "xf/identity"
+require 'xf'
 
 Gem::Specification.new do |spec|
   repository_url = "https://www.github.com/baweaver/xf"
@@ -23,10 +23,16 @@ Gem::Specification.new do |spec|
     "bug_tracker_uri" => "#{repository_url}/issues"
   }
 
-  spec.add_development_dependency "bundler-audit", "~> 0.6"
+  # If you're developing, Gemsmith gets included and you should be on 2.5.x+,
+  # if not or it's CI in a lesser Ruby version it _should not crash_
+  if RUBY_VERSION >= '2.5.0'
+    spec.add_development_dependency "gemsmith", "~> 12.0"
+    spec.add_development_dependency "git-cop", "~> 2.2"
+    spec.add_development_dependency "bundler-audit", "~> 0.6"
+  end
+
   spec.add_development_dependency "codeclimate-test-reporter", "~> 1.0"
-  spec.add_development_dependency "gemsmith", "~> 12.0"
-  spec.add_development_dependency "git-cop", "~> 2.2"
+
   spec.add_development_dependency "guard-rspec", "~> 4.7"
   spec.add_development_dependency "pry", "~> 0.10"
   spec.add_development_dependency "pry-byebug", "~> 3.5"
@@ -34,6 +40,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "reek", "~> 4.8"
   spec.add_development_dependency "rspec", "~> 3.7"
   spec.add_development_dependency "rubocop", "~> 0.54"
+  spec.add_development_dependency "benchmark-ips"
+  spec.add_development_dependency "qo", "~> 0.2"
 
   spec.files = Dir["lib/**/*"]
   spec.extra_rdoc_files = Dir["README*", "LICENSE*"]

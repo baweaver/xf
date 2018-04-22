@@ -1,0 +1,86 @@
+Running on Xf v0.0.3 at rev 46a020c25611efcc262d4df3d8da511fa13ec2fa
+ - Ruby ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-darwin17]
+
+Composition
+===========
+
+Vanilla result: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+Xf#compose result: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+Warming up --------------------------------------
+             Vanilla    55.238k i/100ms
+          Xf#compose    13.037k i/100ms
+Calculating -------------------------------------
+             Vanilla    667.471k (± 2.1%) i/s -      3.370M in   5.050430s
+          Xf#compose    138.866k (± 1.9%) i/s -    703.998k in   5.071473s
+
+Comparison:
+             Vanilla:   667471.5 i/s
+          Xf#compose:   138865.7 i/s - 4.81x  slower
+
+
+Scope Get
+=========
+
+Vanilla result: 1
+Xf#get result: 1
+Xf#get_value result: 1
+
+Warming up --------------------------------------
+             Vanilla   222.740k i/100ms
+              Xf#get    36.311k i/100ms
+        Xf#get_value    39.438k i/100ms
+Calculating -------------------------------------
+             Vanilla      4.787M (± 3.9%) i/s -     24.056M in   5.033985s
+              Xf#get    403.130k (± 2.3%) i/s -      2.033M in   5.046710s
+        Xf#get_value    480.889k (± 2.1%) i/s -      2.406M in   5.004931s
+
+Comparison:
+             Vanilla:  4786578.7 i/s
+        Xf#get_value:   480888.9 i/s - 9.95x  slower
+              Xf#get:   403130.4 i/s - 11.87x  slower
+
+
+Scope Set - No mutation
+=======================
+
+Vanilla result: {:a=>{:b=>{:c=>{:d=>{:e=>{:f=>5}}}}}}
+Xf#set result: {:a=>{:b=>{:c=>{:d=>{:e=>{:f=>5}}}}}}
+Xf#set_value result: {:a=>{:b=>{:c=>{:d=>{:e=>{:f=>5}}}}}}
+
+Warming up --------------------------------------
+             Vanilla     9.014k i/100ms
+              Xf#set     6.671k i/100ms
+        Xf#set_value     7.034k i/100ms
+Calculating -------------------------------------
+             Vanilla     92.189k (± 2.8%) i/s -    468.728k in   5.088463s
+              Xf#set     68.189k (± 3.2%) i/s -    346.892k in   5.092550s
+        Xf#set_value     72.234k (± 2.8%) i/s -    365.768k in   5.067691s
+
+Comparison:
+             Vanilla:    92189.4 i/s
+        Xf#set_value:    72234.3 i/s - 1.28x  slower
+              Xf#set:    68188.7 i/s - 1.35x  slower
+
+
+Scope Set - Mutation
+====================
+
+Vanilla result: {:a=>{:b=>{:c=>{:d=>{:e=>{:f=>5}}}}}}
+Xf#set! result: {:a=>{:b=>{:c=>{:d=>{:e=>{:f=>5}}}}}}
+Xf#set_value! result: {:a=>{:b=>{:c=>{:d=>{:e=>{:f=>5}}}}}}
+
+Warming up --------------------------------------
+             Vanilla   212.705k i/100ms
+             Xf#set!    25.158k i/100ms
+       Xf#set_value!    34.440k i/100ms
+Calculating -------------------------------------
+             Vanilla      4.782M (± 2.8%) i/s -     24.036M in   5.030076s
+             Xf#set!    290.279k (± 5.3%) i/s -      1.459M in   5.041463s
+       Xf#set_value!    372.749k (± 6.1%) i/s -      1.860M in   5.008744s
+
+Comparison:
+             Vanilla:  4782130.7 i/s
+       Xf#set_value!:   372748.7 i/s - 12.83x  slower
+             Xf#set!:   290278.8 i/s - 16.47x  slower
+

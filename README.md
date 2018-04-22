@@ -27,10 +27,14 @@
 
 ## Features
 
-**Compose**
+**Compose and Pipe**
 
 ```ruby
-%w(1 2 3 4).map(&Xf.compose(:to_i, :succ))
+# Read left to right
+%w(1 2 3 4).map(&Xf.pipe(:to_i, :succ))
+
+# Read right to left
+%w(1 2 3 4).map(&Xf.compose(:succ, :to_i))
 ```
 
 If it looks like a Proc, or can be convinced to become one, it will work there.
@@ -56,9 +60,9 @@ Let's try setting a value:
 ```ruby
 people = [{name: "Robert", age: 22}, {name: "Roberta", age: 22}, {name: "Foo", age: 42}, {name: "Bar", age: 18}]
 
-older_people = people.map(&Xf.scope(:age) { |age| age + 1 })
+age_scope = Xf.scope(:age)
 
-older_people = people.map(&Xf.scope(:age).set { |age| age + 1 })
+older_people = people.map(&age_scope.set { |age| age + 1 })
 # => [{:name=>"Robert", :age=>23}, {:name=>"Roberta", :age=>23}, {:name=>"Foo", :age=>43}, {:name=>"Bar", :age=>19}]
 
 people
@@ -66,7 +70,7 @@ people
 
 # set! will mutate, for those tough ground in issues:
 
-older_people = people.map(&Xf.scope(:age).set! { |age| age + 1 })
+older_people = people.map(&age_scope.set! { |age| age + 1 })
 # => [{:name=>"Robert", :age=>23}, {:name=>"Roberta", :age=>23}, {:name=>"Foo", :age=>43}, {:name=>"Bar", :age=>19}]
 
 people
@@ -76,20 +80,59 @@ people
 It works much the same as `Hash#dig` in that you can pass multiple comma-seperated values as a deeper path:
 
 ```
-Xf.scope(:children, 0, :name).get.call({name: 'Foo', children: [{name: 'Bar'}]})
+first_child_scope = Xf.scope(:children, 0, :name)
+first_child_scope.get.call({name: 'Foo', children: [{name: 'Bar'}]})
 # => "Bar"
 
-Xf.scope(:children, 0, :name).set('Baz').call({name: 'Foo', children: [{name: 'Bar'}]})
+first_child_scope.set('Baz').call({name: 'Foo', children: [{name: 'Bar'}]})
 # => {:name=>"Foo", :children=>[{:name=>"Baz"}]}
 ```
 
 That means array indexes work too, and on both `get` and `set` methods!
 
+**Traces**
+
+A Trace is a lot like a scope, except it'll keep digging until it finds a
+matching value. It takes a single path instead of a set like Scope. Currently
+there are three types:
+
+* `Trace` - Match on key
+* `TraceValue` - Match on value
+* `TraceKeyValue` - Match on both key and value
+
+Tracers all implement `===` for matchers, which makes them more flexible but also
+a good deal slower than Scopes. Keep that in mind.
+
+Let's take a look at a few options real quick. We'll be sampling some data from
+`people.json`, which is generated from [JSON Generator](https://next.json-generator.com/).
+
+```ruby
+require 'json'
+people = JSON.parse(File.read('people.json'))
+
+first_name_trace = Xf.trace('first')
+
+# Remember it gets _all_ matching values, resulting in a nested array. Use
+# `flat_map` if you want a straight list.
+people.map(&first_name_trace.get)
+# => [["Erickson"], ["Pugh"], ["Mullen"], ["Jacquelyn"], ["Miller"], ["Jolene"]]
+
+# You can even compose them if you want to. Just remember compose
+people.flat_map(&Xf.compose(first_name_trace.set('Spartacus'), first_name_trace.get))
+# => ["Spartacus", "Spartacus", "Spartacus", "Spartacus", "Spartacus", "Spartacus"]
+```
+
+Depending on requests, I may make a NarrowScope that only returns the first match
+instead of digging the entire hash. At the moment most of my usecases involve
+data that's not so kind as to give me that option.
+
 ## Screencasts
 
 ## Requirements
 
-0. [Ruby 2.5.1](https://www.ruby-lang.org)
+0. [Ruby 2.3.x](https://www.ruby-lang.org)
+
+> **Note**: For development you'll want to be using 2.5.0+ for various rake tasks and other niceties.
 
 ## Setup
 
