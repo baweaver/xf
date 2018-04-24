@@ -4,3 +4,5 @@
 pkg/*
 Gemfile.lock
 tmp
+
+coverage/*
