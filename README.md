@@ -15,8 +15,8 @@ Enumerables, namely deep Hashes.
 
 ### How it was made
 
-[Xf Part One - Scopes](https://medium.com/@baweaver/on-dealing-with-deep-hashes-in-ruby-xf-part-one-scopes-f63447d59ee1)
-[Xf Part Two - Traces](https://medium.com/@baweaver/on-dealing-with-deep-hashes-in-ruby-xf-part-two-traces-23b52546a753)
+* [Xf Part One - Scopes](https://medium.com/@baweaver/on-dealing-with-deep-hashes-in-ruby-xf-part-one-scopes-f63447d59ee1)
+* [Xf Part Two - Traces](https://medium.com/@baweaver/on-dealing-with-deep-hashes-in-ruby-xf-part-two-traces-23b52546a753)
 
 <!-- Tocer[start]: Auto-generated, don't remove. -->
 
