@@ -17,8 +17,8 @@ module Xf
     # Gets a value from a Hash
     #
     # @return [type] [description]
-    def get
-      method(:get_value)
+    def get(&fn)
+      Proc.new { |hash| get_value(hash, &fn) }
     end
 
     # Sets a value in a Hash
@@ -54,8 +54,10 @@ module Xf
     # @param hash [Hash] Hash to get value from
     #
     # @return [Any]
-    def get_value(hash)
-      hash.dig(*@paths)
+    def get_value(hash, &fn)
+      value = hash.dig(*@paths)
+
+      block_given? ? fn[value] : value
     end
 
     # Sets a value at the bottom of a path without mutating the original.

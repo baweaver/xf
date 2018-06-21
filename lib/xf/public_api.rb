@@ -133,6 +133,10 @@ module Xf
       }
     end
 
+    def slice(*keys)
+      Proc.new { |hash| hash.slice(*keys) }
+    end
+
     # Solely meant as a tap addendum
     #
     # @return [Proc[Any] -> nil]

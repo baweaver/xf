@@ -17,6 +17,10 @@ RSpec.describe Xf::Trace do
     it 'finds all values that match the target' do
       expect(trace.get.call(target_hash)).to eq([1, 2, 3])
     end
+
+    it 'can also transform the found values' do
+      expect(trace.get { |h, k, v| v + 10 }.call(target_hash)).to eq([11, 12, 13])
+    end
   end
 
   describe '#set' do

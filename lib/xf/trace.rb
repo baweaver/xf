@@ -20,14 +20,24 @@ module Xf
       @trace_path = trace_path
     end
 
-    def get
-      Proc.new { |target| get_value(target) }
+    # Gets a value from a Hash
+    #
+    # @param &fn [Proc]
+    #   Block to yield the hash, key, and value from any matching element
+    #   into. Used to transform returned values upon retrieval
+    #
+    # @return [Proc[Hash] -> Array]
+    #   Array containing matching values, optionally transformed
+    def get(&fn)
+      Proc.new { |target| get_value(target, &fn) }
     end
 
-    def get_value(hash)
+    def get_value(hash, &fn)
       retrieved_values = []
 
-      recursing_dive(hash) { |h, k, v| retrieved_values.push(v) }
+      recursing_dive(hash) { |h, k, v|
+        retrieved_values.push(block_given? ? fn[h, k, v] : v)
+      }
 
       retrieved_values
     end

@@ -17,6 +17,10 @@ RSpec.describe Xf::Scope do
     it 'can get a value out of a hash' do
       expect(scope.get.call(target_hash)).to eq(1)
     end
+
+    it 'can get and transform a value from a hash' do
+      expect(scope.get { |v| v * 20 }.call(target_hash)).to eq(20)
+    end
   end
 
   describe '#set' do

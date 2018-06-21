@@ -109,3 +109,77 @@ task :symbolized_perf do
   )
 end
 
+task :proc_vs_method do
+  class Scope
+    def initialize(*ps) @ps=ps                        end
+    def get_m;          method(:get_value)            end
+    def get_p;          Proc.new { |o| get_value(o) } end
+    def get_value(o)    o.dig(*@ps)                   end
+  end
+
+  age_scope = Scope.new(:age)
+  people    = [{name: "Robert", age: 22}, {name: "Roberta", age: 22}]
+
+  run_benchmark('Proc vs Method',
+    'method': -> { people.map(&age_scope.get_m) },
+    'Proc':   -> { people.map(&age_scope.get_p) }
+  )
+end
+
+task :reduce_vs_each do
+  class Scope
+    def initialize(*paths) @paths = paths end
+
+    def set_e!(hash, value = nil, &fn)
+      lead_in    = @paths[0..-2]
+      target_key = @paths[-1]
+
+      new_hash = hash
+      lead_in.each { |s| new_hash = new_hash[s] }
+
+      new_value = block_given? ?
+        yield(new_hash[target_key]) :
+        value
+
+      new_hash[target_key] = new_value
+      hash
+    end
+
+    def set_r!(hash, value = nil, &fn)
+      lead_in    = @paths[0..-2]
+      target_key = @paths[-1]
+
+      dive_hash = lead_in.reduce(hash) { |h, s| h[s] }
+      new_value = block_given? ?
+        yield(dive_hash[target_key]) : value
+
+      dive_hash[target_key] = new_value
+      hash
+    end
+  end
+
+  deep_hash = {a: {b: {c: {d: {e: {f: 1}}}}}}
+  scope     = Scope.new(:a, :b, :c, :d, :e, :f)
+
+  run_benchmark('Proc vs Method',
+    'reduce': -> { scope.set_r!(deep_hash, 5) },
+    'each':   -> { scope.set_e!(deep_hash, 5) }
+  )
+end
+
+task :proc_variants do
+  def ipn;    Proc.new.call(42) end
+  def ipy;    yield(42)         end
+  def epy(&f) yield(42)         end
+  def epc(&f) f.call(42)        end
+  def epa(f)  f.call(42)        end
+
+  run_benchmark('Proc vs Method',
+    'Implied Proc New':    -> { ipn { |v| v * 2}      },
+    'Implied Proc Yield':  -> { ipy { |v| v * 2}      },
+    'Explicit Proc Yield': -> { epy { |v| v * 2}      },
+    'Explicit Proc Call':  -> { epc { |v| v * 2}      },
+    'Explicit Proc Arg':   -> { epa proc { |v| v * 2} },
+  )
+end
+
