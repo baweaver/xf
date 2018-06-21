@@ -6,6 +6,18 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/905faea654f9e0a1f811/test_coverage)](https://codeclimate.com/github/baweaver/xf/test_coverage)
 [![Build Status](https://travis-ci.org/baweaver/xf.svg?branch=master)](https://travis-ci.org/baweaver/xf)
 
+![Xf Lemur logo](img/xf_logo.png)
+
+Xf - Short for Xform or Transform Functions meant to manipulate
+Enumerables, namely deep Hashes.
+
+## Articles
+
+### How it was made
+
+* [Xf Part One - Scopes](https://medium.com/@baweaver/on-dealing-with-deep-hashes-in-ruby-xf-part-one-scopes-f63447d59ee1)
+* [Xf Part Two - Traces](https://medium.com/@baweaver/on-dealing-with-deep-hashes-in-ruby-xf-part-two-traces-23b52546a753)
+
 <!-- Tocer[start]: Auto-generated, don't remove. -->
 
 ## Table of Contents
