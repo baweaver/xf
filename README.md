@@ -65,6 +65,9 @@ people = [{name: "Robert", age: 22}, {name: "Roberta", age: 22}, {name: "Foo", a
 
 people.map(&Xf.scope(:age).get)
 # => [22, 22, 42, 18]
+
+people.map(&Xf.scope(:age).get { |v| v > 20 })
+# => [true, true, true, false]
 ```
 
 Let's try setting a value:
@@ -128,6 +131,13 @@ first_name_trace = Xf.trace('first')
 # `flat_map` if you want a straight list.
 people.map(&first_name_trace.get)
 # => [["Erickson"], ["Pugh"], ["Mullen"], ["Jacquelyn"], ["Miller"], ["Jolene"]]
+
+# It can take a function too that gives back the parent hash and key as well.
+#
+# Why no shorthand? Arity of the function, and you can't have more than one `&`
+# in the same code block. Ruby's no fan of it.
+people.map(&first_name_trace.get { |h, k, v| v.downcase })
+# => [["erickson"], ["pugh"], ["mullen"], ["jacquelyn"], ["miller"], ["jolene"]]
 
 # You can even compose them if you want to. Just remember compose
 people.flat_map(&Xf.compose(first_name_trace.set('Spartacus'), first_name_trace.get))
