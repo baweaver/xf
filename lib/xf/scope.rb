@@ -51,11 +51,20 @@ module Xf
     # Direct value getter, though it may be wiser to use Hash#dig here
     # instead if you're concerned about speed.
     #
+    # If the object does not respond to dig, Xf will attempt to use an
+    # array bracket accessor dive instead for compatability reasons.
+    #
     # @param hash [Hash] Hash to get value from
     #
     # @return [Any]
     def get_value(hash, &fn)
-      value = hash.dig(*@paths)
+      value = if hash.respond_to?(:dig)
+        hash.dig(*@paths)
+      else
+        new_hash = hash
+        @paths.each { |s| new_hash = new_hash[s] }
+        new_hash
+      end
 
       block_given? ? fn[value] : value
     end

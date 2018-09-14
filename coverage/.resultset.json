@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/lemur/dev/xf/spec/xf/trace_key_value_spec.rb": [
+      "/Users/baweaver/Development/oss/xf/spec/xf/trace_key_value_spec.rb": [
         1,
         1,
         null,
@@ -45,7 +45,7 @@
         null,
         null
       ],
-      "/Users/lemur/dev/xf/spec/xf/trace_spec.rb": [
+      "/Users/baweaver/Development/oss/xf/spec/xf/trace_spec.rb": [
         1,
         1,
         null,
@@ -98,7 +98,7 @@
         null,
         null
       ],
-      "/Users/lemur/dev/xf/spec/xf/trace_value_spec.rb": [
+      "/Users/baweaver/Development/oss/xf/spec/xf/trace_value_spec.rb": [
         1,
         1,
         null,
@@ -142,7 +142,7 @@
         null,
         null
       ],
-      "/Users/lemur/dev/xf/spec/xf_spec.rb": [
+      "/Users/baweaver/Development/oss/xf/spec/xf_spec.rb": [
         1,
         1,
         null,
@@ -171,6 +171,6 @@
         null
       ]
     },
-    "timestamp": 1529564525
+    "timestamp": 1536887278
   }
 }

@@ -21,6 +21,17 @@ RSpec.describe Xf::Scope do
     it 'can get and transform a value from a hash' do
       expect(scope.get { |v| v * 20 }.call(target_hash)).to eq(20)
     end
+
+    context 'When given a value that\'s not a hash' do
+      class FHash
+        def initialize(v) @v = v end
+        def [](k)         @v[k]  end
+      end
+
+      it 'will use a diving method instead of dig' do
+        expect(scope.get.call(FHash.new(target_hash))).to eq(1)
+      end
+    end
   end
 
   describe '#set' do
